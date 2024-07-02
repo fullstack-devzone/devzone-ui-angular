@@ -33,7 +33,6 @@ export class LoginComponent {
       password: this.loginForm.value.password ||"",
     }).subscribe({
       next: response => {
-          console.log("login response:", response)
           this.authService.setAuthUser(response);
           this.router.navigate(['/'])
       },

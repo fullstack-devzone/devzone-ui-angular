@@ -34,7 +34,6 @@ export class RegisterComponent {
       name: this.registrationForm.value.password ||"",
     }).subscribe({
       next: response => {
-        console.log("registration response:", response)
         this.router.navigate(['/login'])
       },
       error: () => {

@@ -16,12 +16,14 @@ import {NgClass, NgForOf} from "@angular/common";
   ],
   styleUrls: ['./add-post.component.css']
 })
-export class AddPostComponent implements OnInit{
+export class AddPostComponent implements OnInit {
+
+  urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:\/?#[\]@!$&'()*+,;=]+$/;
 
   addPostForm = this.fb.group({
     title: ['', [Validators.required, Validators.pattern(/\S/)]],
-    url: [''],
-    content: ['', [Validators.required, Validators.pattern(/\S/)]],
+    url: ['', [Validators.required, Validators.pattern(this.urlRegex)]],
+    content: [''],
   });
 
   constructor(private postService: PostService,
@@ -41,9 +43,7 @@ export class AddPostComponent implements OnInit{
       url: this.addPostForm.value.url || "",
       content: this.addPostForm.value.content || ""
     }
-    console.log('payload:',createPostRequest);
     this.postService.createPost(createPostRequest).subscribe(postResp => {
-      console.log(postResp);
       this.router.navigate(['/'])
     })
   }
