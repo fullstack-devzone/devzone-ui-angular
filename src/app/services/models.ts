@@ -51,6 +51,7 @@ export interface LoginResponse {
 }
 
 export interface LoginUser {
+  id: number
   email: string
   name: string
   role: string

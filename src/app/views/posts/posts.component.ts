@@ -44,6 +44,16 @@ export class PostsComponent implements OnInit {
 
   fetchPosts() {
     this.postService.getPosts(this.page).subscribe(response => {
+      let posts = response.data;
+      const loginUser = this.authService.getLoginUser()
+      if (loginUser) {
+        let loginUserId = loginUser.user.id, loginUserRole = loginUser.user.role;
+        posts.forEach(p => {
+          if (p.createdBy.id === loginUserId || loginUserRole === "ROLE_ADMIN") {
+            p.editable = true
+          }
+        })
+      }
       this.postsResponse = response;
     })
   }

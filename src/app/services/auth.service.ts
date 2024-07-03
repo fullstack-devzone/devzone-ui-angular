@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CreateUserRequest, CreateUserResponse, LoginRequest, LoginResponse} from "./models";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import { environment } from "../../environments/environment"
+import {environment} from "../../environments/environment"
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +30,18 @@ export class AuthService {
     return !!localStorage.getItem("token")
   }
 
-  loginUserName(): string {
+  getLoginUser(): LoginResponse | null {
     let auth = localStorage.getItem("auth")
     if(auth) {
-      let authJson = JSON.parse(auth) as LoginResponse
-      return authJson.user.name
+      return JSON.parse(auth) as LoginResponse
+    }
+    return null
+  }
+
+  loginUserName(): string {
+    let loginUser = this.getLoginUser()
+    if(loginUser) {
+      return loginUser.user.name
     }
     return ""
   }
